@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon ./src/server.js"
+    "start": "node ./src/server.js"
+
   },
   "keywords": [
     "nodejs"
@@ -22,8 +23,5 @@
     "mongoose": "^6.7.2",
     "mongoose-delete": "^1.0.1",
     "mysql2": "2.3.3"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.20"
   }
 }
