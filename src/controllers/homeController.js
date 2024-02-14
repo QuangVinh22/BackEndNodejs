@@ -5,9 +5,9 @@ const {
   updateUserById,
   deleteUserById,
 } = require("../services/CRUDService");
-
+const User = require("../models/user");
 const getHomePage = async (req, res) => {
-  let results = await getAllUsers();
+  let results = await User.find({});
   return res.render("homepage.ejs", { listUsers: results });
 };
 
@@ -23,16 +23,21 @@ const postCreateUser = async (req, res) => {
   let name = req.body.name;
   let city = req.body.city;
 
-  const [result, fields] = await connection.query(
-    "INSERT INTO Users (email,name,city) value ( ? ,? , ?)",
-    [email, name, city]
-  );
-  res.send("Created user succed!");
+  // const [result, fields] = await connection.query(
+  //   "INSERT INTO Users (email,name,city) value ( ? ,? , ?)",
+  //   [email, name, city]
+  // );
+  await User.create({
+    email,
+    name,
+    city,
+  });
+  res.redirect("/");
 };
 //EditController
 const getEditPage = async (req, res) => {
   const UserId = req.params.id;
-  let results = await getUsersById(UserId);
+  let results = await User.findById(UserId).exec();
   return res.render("edituser.ejs", { userEdit: results });
 };
 const postEditUser = async (req, res) => {
@@ -41,18 +46,20 @@ const postEditUser = async (req, res) => {
   let city = req.body.city;
   let id = req.body.id;
 
-  const [result, fields] = await updateUserById(email, city, name, id);
+  // const [result, fields] = await updateUserById(email, city, name, id);
+  await User.updateOne({ _id: id }, { email: email });
   res.redirect("/");
 };
 //DeleteController
 const postDeletePage = async (req, res) => {
   const UserId = req.params.id;
-  let results = await getUsersById(UserId);
+  // let results = await getUsersById(UserId);
+  let results = await User.findById(UserId).exec();
   return res.render("deleteuser.ejs", { userDelete: results });
 };
 const deleteUser = async (req, res) => {
   let UserId = req.body.id;
-  let results = await deleteUserById(UserId);
+  let results = await User.deleteOne({ _id: UserId });
   res.redirect("/");
 };
 

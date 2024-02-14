@@ -1,0 +1,2 @@
+WT1asMfGeZpXnsFH
+mongodb+srv://quangvinhchatgpt:WT1asMfGeZpXnsFH@cluster0.i8oxoso.mongodb.net/?retryWrites=true&w=majority
