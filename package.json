@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server.js"
-
+    "start": "nodemon ./src/server.js"
   },
   "keywords": [
     "nodejs"
@@ -15,13 +14,17 @@
   "license": "ISC",
   "dependencies": {
     "api-query-params": "5.4.0",
+    "bcrypt": "^5.1.1",
+    "crypto": "^1.0.1",
     "dotenv": "16.0.3",
     "ejs": "3.1.8",
     "express": "4.18.2",
-    "express-fileupload": "^1.4.3",
     "joi": "17.7.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.7.2",
     "mongoose-delete": "^1.0.1",
-    "mysql2": "2.3.3"
+    "mysql2": "2.3.3",
+    "nodemon": "^3.0.3",
+    "redis": "^4.6.13"
   }
 }
