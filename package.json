@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "api-query-params": "5.4.0",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "crypto": "^1.0.1",
     "dotenv": "16.0.3",
     "ejs": "3.1.8",
