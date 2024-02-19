@@ -7,6 +7,7 @@ const {
   signRefreshToken,
   verifyRefreshToken,
 } = require("../helpers/jwt_service");
+const client = require("../helpers/connection_redis");
 module.exports = {
   registerUserService: async (user) => {
     const { error } = userValidate(user);
@@ -46,13 +47,26 @@ module.exports = {
     const refreshToken = await signRefreshToken(isExist._id);
     return { accessToken, refreshToken };
   },
-  refreshTokenService: async (refreshToken) => {
-    const payload = await verifyRefreshToken(refreshToken);
-    if (!payload.userId) {
-      throw createError.Unauthorized("Invalid refresh token");
+  logoutUserService: async (refreshToken) => {
+    if (!refreshToken) {
+      throw createError.BadRequest("Refresh Token is required");
     }
-    const accessToken = await signAccessToken(payload.userId);
-    const newRefreshToken = await signRefreshToken(payload.userId); // Tùy chọn: cấp lại refresh token mới
+    const payload = await verifyRefreshToken(refreshToken);
+
+    const userId = payload.userId;
+    client.del(userId.toString(), (err, reply) => {
+      if (err) {
+        throw createError.InternalServerError("Ko tồn tại");
+      }
+    });
+    return { success: true, message: "Log Out successful" };
+  },
+  refreshTokenService: async (refreshToken) => {
+    const payload = await verifyRefreshToken(refreshToken); // Giả sử nó resolve với payload chứa userId
+    const userId = payload.userId;
+
+    const accessToken = await signAccessToken(userId);
+    const newRefreshToken = await signRefreshToken(userId); // Tùy chọn: cấp lại refresh token mới
     return { accessToken, newRefreshToken };
   },
   getListUsersService: async (Token, abc) => {

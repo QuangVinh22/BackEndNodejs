@@ -4,7 +4,8 @@ const {
   postRegisterUser,
   postLoginUser,
   getListUsers,
-  refreshToken,
+  refreshTokenController,
+  logoutUser,
 } = require("../controllers/authController");
 const {
   verifyAccessToken,
@@ -13,9 +14,9 @@ const {
 AuthRouteAPI.post("/register", postRegisterUser);
 AuthRouteAPI.post("/login", postLoginUser);
 AuthRouteAPI.get("/getlist", verifyAccessToken, getListUsers);
-AuthRouteAPI.post("/refresh-token", refreshToken);
+AuthRouteAPI.post("/refresh-token", refreshTokenController);
 
-// AuthRouteAPI.post("/logout", putUpdateUserAPI);
+AuthRouteAPI.delete("/logout", logoutUser);
 // AuthRouteAPI.post("/refresh-token", postUploadSingleFileApi);
 // AuthRouteAPI.post("/forgot-password", postUploadMultiplyFileApi);
 // AuthRouteAPI.post(

@@ -4,6 +4,7 @@ const {
   registerUserService,
   loginUserService,
   getListUsersService,
+  logoutUserService,
   refreshTokenService,
 } = require("../services/authService");
 const { verifyRefreshToken } = require("../helpers/jwt_service");
@@ -52,11 +53,26 @@ module.exports = {
       next(error);
     }
   },
-  refreshToken: async (req, res, next) => {
+  logoutUser: async (req, res, next) => {
     try {
       const { refreshToken } = req.body;
 
-      if (!refreshToken) throw createError.BadRequest();
+      if (!refreshToken)
+        throw createError.BadRequest("Refresh token is required");
+
+      const tokens = await logoutUserService(refreshToken);
+      res.json(tokens);
+    } catch (error) {
+      // Lỗi từ service sẽ được bắt ở đây và chuyển đến middleware xử lý lỗi tiếp theo
+      next(error);
+    }
+  },
+  refreshTokenController: async (req, res, next) => {
+    try {
+      const { refreshToken } = req.body;
+
+      if (!refreshToken)
+        throw createError.BadRequest("Refresh token is required");
 
       const tokens = await refreshTokenService(refreshToken);
       res.json(tokens);
